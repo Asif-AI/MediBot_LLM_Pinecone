@@ -6,4 +6,5 @@ flask
 pypdf
 ipykernel
 pathlib
+python-dotenv
 -e .
