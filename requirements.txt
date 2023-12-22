@@ -6,3 +6,4 @@ flask
 pypdf
 ipykernel
 pathlib
+-e .
