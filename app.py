@@ -40,8 +40,7 @@ llm = CTransformers(model = "model/llama-2-7b-chat.ggmlv3.q4_0.bin",
                                   "temperature" : 0.8})
 
 
-
-RetrievalQA.from_chain_type(
+QA=RetrievalQA.from_chain_type(
     LLM=llm,
     chain_type = "stuff",
     retriever = docsearch.as_retriever(search_kwargs={'K': 2,}),
@@ -53,6 +52,16 @@ RetrievalQA.from_chain_type(
 def index():
     return render_template('chat.html')
 
+#Final Route
+@app.route("/get", methods = ["GET", "POST"])
+def chat():
+    msg = request.form["msg"]
+    input = msg
+    print(input)
+    result = QA({"query": input})
+    print ("Response :", result["result"])
+    return str(result["result"])
+    
 
 #initialize flask
 if __name__ == "__main__":
