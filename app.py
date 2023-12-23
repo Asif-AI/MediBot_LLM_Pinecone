@@ -34,13 +34,14 @@ PROMPT=PromptTemplate(template=prompt_template, input_variables=["context", "que
 chain_type_kwargs={"prompt": PROMPT}
 
 #initialize 
-llm = CTransformers(model = "model/llama-2-7b-chat.ggmlv3.q4_0.bin",
-                        model_type = 'llama',
-                        config = {'max_new_tokens': 512,
-                                  "temperature" : 0.8})
+chain_type_kwargs={"prompt": PROMPT}
 
+llm=CTransformers(model="model/llama-2-7b-chat.ggmlv3.q4_0.bin",
+                  model_type="llama",
+                  config={'max_new_tokens':512,
+                          'temperature':0.8})
 
-QA=RetrievalQA.from_chain_type(
+qa=RetrievalQA.from_chain_type(
     LLM=llm,
     chain_type = "stuff",
     retriever = docsearch.as_retriever(search_kwargs={'K': 2,}),
@@ -58,7 +59,7 @@ def chat():
     msg = request.form["msg"]
     input = msg
     print(input)
-    result = QA({"query": input})
+    result = qa({"query": input})
     print ("Response :", result["result"])
     return str(result["result"])
     
